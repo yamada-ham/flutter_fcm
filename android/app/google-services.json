@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "694509823344",
+    "project_id": "daisouya",
+    "storage_bucket": "daisouya.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694509823344:android:b8294c53b43c08dcdd9bb5",
+        "android_client_info": {
+          "package_name": "com.daisouya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694509823344-n1m7gr8vaig9d1h4c6t2o5t8qdc6ik0j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbXy2Zh-VNNRgPk7d4EKFA1EI0AEJxeX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694509823344-n1m7gr8vaig9d1h4c6t2o5t8qdc6ik0j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
