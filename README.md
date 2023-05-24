@@ -1,9 +1,5 @@
----
-title: Laravel & Flutter で FCM を利用した Push通知 の実装方法
-tags: Firebase FirebaseCloudMessaging プッシュ通知 Push通知 Flutter
-author: ymd_a
-slide: false
----
+# Laravel & Flutter で FCM を利用した Push通知 の実装方法
+
 # Firebaseでやること
 - firebase 登録
 - プロジェクト作成
