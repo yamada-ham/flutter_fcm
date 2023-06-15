@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:push_fcm/NotificationService.dart';
 
 void main() async {
-  // Firebaseアプリを初期化
   WidgetsFlutterBinding.ensureInitialized();
+
+  NotificationService notification = NotificationService();
+  notification.initialize();
+
+  // Firebaseアプリを初期化
   await Firebase.initializeApp();
 
   // FCMトークンの取得
@@ -14,82 +19,67 @@ void main() async {
 
   // フォアグラウンドでのメッセージ受信時の処理
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Received foreground message: ${message.notification!.title}');
     print('Received foreground message: ${message.notification!.body}');
     // プッシュ通知の表示など、受信したメッセージに対する処理を実装する
+    notification.showNotification(message);
   });
 
   // バックグラウンドまたは終了時のメッセージ受信時の処理
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
 
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+Future<void> _backgroundMessageHandler(RemoteMessage message) async {
+  NotificationService notification = NotificationService();
+  notification.initialize();
+  // バックグラウンドでのメッセージをここで処理します
+  print('A background message was received: ${message.messageId}');
+  notification.showNotification(message);
+}
 
-  // This widget is the root of your application.
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
+  const MyHomePage({Key? key}) : super(key: key);
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  MyHomePageState createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-
-      _counter++;
-    });
-  }
+class MyHomePageState extends State<MyHomePage> {
+  NotificationService notification = NotificationService();
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-
-        title: Text(widget.title),
+        title: const Text('ローカルプッシュ通知テスト'),
       ),
       body: Center(
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                notification.showNotificationTest(); // 通知をすぐに表示
+              },
+              child: const Text('すぐに通知を表示'),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
